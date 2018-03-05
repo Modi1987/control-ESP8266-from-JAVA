@@ -3,6 +3,7 @@ package controlESP8266;
 import java.awt.Button;
 import java.awt.Event;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Insets;
 import java.awt.TextField;
@@ -22,10 +23,11 @@ public class DaFrame extends Frame {
 	
 	Button[] b=new Button[14];
 	String[] bCaption=new String[14];
+	int fontSize=32;
 	
-	Button bexit=new Button("       exit       ");
+	Button bexit=new Button(" exit ");
 	TextField txt;
-	Button bConnect= new Button("  connect  ");
+	Button bConnect= new Button(" connect ");
 	TextField txtStatus;
 	
 	Socket soc;
@@ -52,25 +54,35 @@ public class DaFrame extends Frame {
 			b[i+7]=new Button(bCaption[i+7]);
 		}
 		
+		Font myFont = new Font("Courier", Font.ITALIC,fontSize);
+		for(int i=0;i<14;i++)
+		{
+			b[i].setFont(myFont);
+		}
+		
 		for(int i=0;i<7;i++)
 		{
 			this.add(b[i]);
 			this.add(b[i+7]);
 		}
 		
+		bexit.setFont(myFont);
 		this.add(bexit);
 		
 		txt=new TextField();
 		txt.setColumns(15);
 		txt.setText("192.168.4.1");
+		txt.setFont(myFont);
 		this.add(txt);
 		
 		
 		txtStatus=new TextField();
 		txtStatus.setColumns(15);
 		txtStatus.setText("");
+		txtStatus.setFont(myFont);
 		this.add(txtStatus);
 		
+		bConnect.setFont(myFont);
 		this.add(bConnect);
 		
 		fHeight=0;
@@ -85,9 +97,15 @@ public class DaFrame extends Frame {
 		double hScale=1.0;
 		fHeight=(int)Math.floor(fHeight*hScale)+h1;
 		
-		w1=2*b[1].getWidth();
+		
+		
+		setTitle("ESP8266");
+		this.resize(fWidth,fHeight);
+		this.show(); 
+		
+		w1=b[0].getWidth()+b[7].getWidth();
 		w2=txt.getWidth();
-		double wScale=1.0;
+		double wScale=1.1;
 		if(w1>w2)
 		{
 			fWidth=(int)Math.floor(w1*wScale);
@@ -97,8 +115,9 @@ public class DaFrame extends Frame {
 			fWidth=(int)Math.floor(w2*wScale);
 		}
 		
+		fHeight=bConnect.getY()+bConnect.getHeight()+
+				getInsets().top;
 		
-		setTitle("ESP8266");
 		this.resize(fWidth,fHeight);
 		this.show();
 		
